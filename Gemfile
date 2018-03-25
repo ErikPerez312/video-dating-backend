@@ -8,6 +8,8 @@ end
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
 gem 'rails', '~> 5.1.4'
+# Loading Envs
+gem 'dotenv'
 # Postgres
 gem 'pg'
 # Twilio

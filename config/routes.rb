@@ -3,5 +3,5 @@ Rails.application.routes.draw do
   resources :users
 
   get "/token", to: "tokens#index"
-
+  get "/session", to: "sessions#index"
 end

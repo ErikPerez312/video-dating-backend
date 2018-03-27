@@ -14,11 +14,12 @@ RSpec.describe "UserControllers", type: :request do
     context "authorized" do
       before {
         user = User.new(
-          name: "erik",
-          email: "erik@test.com",
+          first_name: "Erik",
+          last_name: "Perez",
+          gender: "male",
+          phone_number: "(111)111-1111",
           age: 20,
-          phone_number: "1111111111",
-          password: "testpassword"
+          password: "testPass"
         )
         user.save
         # Compose token for request
@@ -37,11 +38,12 @@ RSpec.describe "UserControllers", type: :request do
     context "valid params" do
       before {
         valid_params = {
-          name: "Erik",
-          email: "Erik@test.com",
-          password: "testpassword",
+          first_name: "Erik",
+          last_name: "Perez",
+          gender: "male",
+          phone_number: "(111)111-1111",
           age: 20,
-          phone_number: "1111111111"
+          password: "testPass"
         }
         post "/users", params: valid_params
       }
@@ -54,7 +56,7 @@ RSpec.describe "UserControllers", type: :request do
     context "invalid params" do
       before {
         invalid_params = {
-          email: "erik@test.com",
+          first_name: "test",
           password: "testpassword"
         }
         post "/users", params: invalid_params

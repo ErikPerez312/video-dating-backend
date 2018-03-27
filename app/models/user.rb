@@ -1,5 +1,7 @@
 class User < ApplicationRecord
-  validates :name, presence: true
+  validates :first_name, presence: true
+  validates :last_name, presence: true
+  validates :gender, presence: true
   validates :age, presence: true
   validates :phone_number, presence: true, uniqueness: true
 

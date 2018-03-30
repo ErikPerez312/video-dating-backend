@@ -4,4 +4,6 @@ Rails.application.routes.draw do
 
   get "/token", to: "tokens#index"
   get "/session", to: "sessions#index"
+
+  post "/matches", to: "matches#create"
 end

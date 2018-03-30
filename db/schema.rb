@@ -10,10 +10,17 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180327181743) do
+ActiveRecord::Schema.define(version: 20180330021408) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "matches", force: :cascade do |t|
+    t.integer "cantor_identifier"
+    t.boolean "is_match"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
 
   create_table "users", force: :cascade do |t|
     t.string "phone_number"
@@ -26,6 +33,8 @@ ActiveRecord::Schema.define(version: 20180327181743) do
     t.string "first_name"
     t.string "last_name"
     t.string "gender"
+    t.bigint "matches_id"
+    t.index ["matches_id"], name: "index_users_on_matches_id"
     t.index ["phone_number"], name: "index_users_on_phone_number", unique: true
     t.index ["token"], name: "index_users_on_token", unique: true
   end

@@ -17,8 +17,7 @@ class MatchesController < ApplicationController
   def create
     @cantor_identifier = params["cantor_identifier"]
     @existing_match = Match.find_by(cantor_identifier: @cantor_identifier)
-    puts @existing_match
-    puts "000000000"
+
     if @existing_match
       @existing_match.is_match = true
       @existing_match.save
@@ -38,13 +37,6 @@ class MatchesController < ApplicationController
         render json: @match.errors, status: :unprocessable_entity
       end
     end
-    # @match = Match.new(match_params)
-    #
-    # if @match.save
-    #   render json: @match, status: :created, location: @match
-    # else
-    #   render json: @match.errors, status: :unprocessable_entity
-    # end
   end
 
   # PATCH/PUT /matches/1

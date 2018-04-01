@@ -86,7 +86,6 @@ class MatchesController < ApplicationController
         :left_user_id,
         :right_user_id,
         :cantor_identifier
-
       )
     end
 end

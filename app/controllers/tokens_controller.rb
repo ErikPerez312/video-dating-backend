@@ -1,7 +1,3 @@
-
-# Load environment configuration
-# Dotenv.load
-
 class TokensController < ApplicationController
 
   def index

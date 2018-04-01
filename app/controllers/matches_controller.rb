@@ -3,9 +3,13 @@ class MatchesController < ApplicationController
 
   # GET /matches
   def index
-    @matches = Match.all
-
-    render json: @matches
+    @user = User.find_by_id(params[:user_id])
+    if @user
+      @matches = @user.matches
+      render json: @matches, status: :ok
+    else
+      render json: {"Error": "User with id: #{params[:user_id]} does not exist"}, status: :not_found
+    end
   end
 
   # GET /matches/1
@@ -15,7 +19,7 @@ class MatchesController < ApplicationController
 
   # POST /matches
   def create
-    @cantor_identifier = params["cantor_identifier"]
+    @cantor_identifier = match_params["cantor_identifier"]
     @existing_match = Match.find_by(cantor_identifier: @cantor_identifier)
 
     if @existing_match
@@ -32,7 +36,7 @@ class MatchesController < ApplicationController
       add_users_to_match(@left_id, @right_id, @match)
 
       if @match.save
-        render json: @match, status: :created #, location: @match
+        render json: @match, status: :created
       else
         render json: @match.errors, status: :unprocessable_entity
       end
@@ -73,7 +77,6 @@ class MatchesController < ApplicationController
 
       match.users << @left_user
       match.users << @right_user
-      # match.save
       return
     end
 
@@ -83,6 +86,7 @@ class MatchesController < ApplicationController
         :left_user_id,
         :right_user_id,
         :cantor_identifier
+
       )
     end
 end

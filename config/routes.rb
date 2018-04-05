@@ -8,4 +8,7 @@ Rails.application.routes.draw do
   get "/users/:user_id/matches",  to: "matches#index"
   get "/matches/:id", to: "matches#show"
   post "/users/:user_id/matches", to: "matches#create"
+
+  # Action Cable will be listening for WebSocket requests on ws://localhost:3000/cable.
+  mount ActionCable.server => "/cable"
 end

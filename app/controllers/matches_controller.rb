@@ -62,9 +62,9 @@ class MatchesController < ApplicationController
     end
 
     def broadcast_match(match)
-      ActionCable.server.broadcast 'matches'
-        match: "RECIEVING MATCH BROADCAST"
-      head :ok
+      ActionCable.server.broadcast 'matches',
+        match: "RECIEVING MATCH BROADCAST",
+      head: ok
     end
 
     def match_response(match)

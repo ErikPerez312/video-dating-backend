@@ -21,7 +21,8 @@ gem 'twilio-ruby', '~> 5.7.2'
 gem 'puma', '~> 3.7'
 # Authentication
 gem 'bcrypt', '~> 3.1', '>= 3.1.11'
-
+# UserImage Attachments
+gem 'paperclip', '~> 5.1'
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
   gem 'byebug', platforms: [:mri, :mingw, :x64_mingw]

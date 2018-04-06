@@ -21,6 +21,8 @@ gem 'bcrypt', '~> 3.1', '>= 3.1.11'
 gem 'paperclip', '~> 5.1'
 # AWS sdk for image storage
 gem 'aws-sdk', '~> 2.3.0'
+# custom JSON serializer(Used for ProfileImage)
+gem 'active_model_serializers'
 
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console

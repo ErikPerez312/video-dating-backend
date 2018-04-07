@@ -2,6 +2,6 @@ class ProfileImageSerializer < ActiveModel::Serializer
   attributes :id, :url
 
   def url
-    object.voice_file.url()
+    object.image_file.url()
   end
 end

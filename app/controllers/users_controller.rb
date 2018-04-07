@@ -4,7 +4,7 @@ class UsersController < ApplicationController
 
   # GET /users
   def index
-    @users = User.all
+    @users = User.all.map { |u| user_response(u)}
     render json: @users
   end
 
@@ -42,6 +42,19 @@ class UsersController < ApplicationController
     # Use callbacks to share common setup or constraints between actions.
     def set_user
       @user = User.find(params[:id])
+    end
+
+    def user_response(user)
+      return {
+        :first_name => user.first_name,
+        :last_name => user.last_name,
+        :gender => user.gender,
+        :phone_number => user.phone_number,
+        :age => user.age,
+        :id => user.id,
+        :token => user.id,
+        :profile_images => user.profile_images
+      }
     end
 
     # Only allow a trusted parameter "white list" through.

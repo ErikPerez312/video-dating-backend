@@ -1,5 +1,7 @@
 class User < ApplicationRecord
   has_and_belongs_to_many :matches
+  has_many :profile_images
+  
   validates :first_name, presence: true
   validates :last_name, presence: true
   validates :gender, presence: true

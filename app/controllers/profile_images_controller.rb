@@ -31,6 +31,8 @@ class ProfileImagesController < ApplicationController
   # DELETE /users/:user_id/profile_images/:id
   def destroy
     @profile_image.destroy
+
+    render status: :ok
   end
 
   private

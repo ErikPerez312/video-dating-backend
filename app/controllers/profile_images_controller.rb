@@ -1,30 +1,25 @@
 class ProfileImagesController < ApplicationController
   before_action :set_profile_image, only: [:show, :update, :destroy]
 
-  # GET /profile_images
+  # GET /users/:user_id/profile_images
   def index
-    @profile_images = ProfileImage.all
-
-    render json: @profile_images
+    images = current_user.profile_images
+    render json: images
   end
 
-  # GET /profile_images/1
-  def show
-    render json: @profile_image
-  end
-
-  # POST /profile_images
+  # POST /users/:user_id/profile_images
   def create
     @profile_image = ProfileImage.new(profile_image_params)
+    @profile_image.user = current_user
 
     if @profile_image.save
-      render json: @profile_image, status: :created, location: @profile_image
+      render json: @profile_image, status: :created
     else
       render json: @profile_image.errors, status: :unprocessable_entity
     end
   end
 
-  # PATCH/PUT /profile_images/1
+  # PATCH/PUT /users/:user_id/profile_images/:id
   def update
     if @profile_image.update(profile_image_params)
       render json: @profile_image
@@ -33,7 +28,7 @@ class ProfileImagesController < ApplicationController
     end
   end
 
-  # DELETE /profile_images/1
+  # DELETE /users/:user_id/profile_images/:id
   def destroy
     @profile_image.destroy
   end
@@ -46,8 +41,7 @@ class ProfileImagesController < ApplicationController
 
     # Only allow a trusted parameter "white list" through.
     def profile_image_params
-      params.permit(
-        :image_file,
-      )
+      params.permit(:image_file)
+
     end
 end

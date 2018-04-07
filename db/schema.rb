@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180330024159) do
+ActiveRecord::Schema.define(version: 20180406192059) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -26,6 +26,18 @@ ActiveRecord::Schema.define(version: 20180330024159) do
   create_table "matches_users", id: false, force: :cascade do |t|
     t.bigint "user_id", null: false
     t.bigint "match_id", null: false
+  end
+
+  create_table "profile_images", force: :cascade do |t|
+    t.string "url"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.bigint "user_id"
+    t.string "image_file_file_name"
+    t.string "image_file_content_type"
+    t.integer "image_file_file_size"
+    t.datetime "image_file_updated_at"
+    t.index ["user_id"], name: "index_profile_images_on_user_id"
   end
 
   create_table "users", force: :cascade do |t|
@@ -45,4 +57,5 @@ ActiveRecord::Schema.define(version: 20180330024159) do
     t.index ["token"], name: "index_users_on_token", unique: true
   end
 
+  add_foreign_key "profile_images", "users"
 end

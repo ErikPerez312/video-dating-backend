@@ -5,7 +5,7 @@ class MatchesController < ApplicationController
   # GET /users/:user_id/matches
   def index
     if @user
-      response = @user.matches.map { |m| match_response(m)}
+      response = @user.matches
       render json: response, status: :ok
     else
       render json: {"Error": "User with id: #{params[:user_id]} does not exist"}, status: :not_found
@@ -65,17 +65,6 @@ class MatchesController < ApplicationController
       ActionCable.server.broadcast 'matches',
         match: "RECIEVING MATCH BROADCAST",
       head: ok
-    end
-
-    def match_response(match)
-      return {
-        "id" => match.id,
-        "created_at" => match.created_at,
-        "updated_at" => match.updated_at,
-        "cantor_identifier" => match.cantor_identifier,
-        "is_match" => match.is_match,
-        "users" => match.users
-      }
     end
 
     def add_users_to_match(right_id, match)

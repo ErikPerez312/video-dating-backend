@@ -26,6 +26,7 @@ class MatchesController < ApplicationController
     if existing_match
       existing_match.is_match = true
       existing_match.save
+      broadcast_match(existing_match)
       render json: match_response(existing_match), status: :ok
       return
     else
@@ -62,9 +63,10 @@ class MatchesController < ApplicationController
     end
 
     def broadcast_match(match)
-      ActionCable.server.broadcast 'matches',
-        match: "RECIEVING MATCH BROADCAST",
-      head: ok
+      ActionCable.server.broadcast(
+        'matches',
+        match: match
+        )
     end
 
     def add_users_to_match(right_id, match)

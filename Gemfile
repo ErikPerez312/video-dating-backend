@@ -9,6 +9,7 @@ end
 gem 'rails', '~> 5.1.4'
 # Loading Envs
 gem 'dotenv'
+gem 'redis'
 # Postgres
 gem 'pg'
 # Twilio

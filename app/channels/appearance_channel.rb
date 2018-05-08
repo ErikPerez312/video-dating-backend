@@ -34,9 +34,9 @@ class AppearanceChannel < ApplicationCable::Channel
 
   private
   def broadcast_user_availability
-    ActionCable.server.broadcast (
+    ActionCable.server.broadcast(
       'appearance',
-      online_user_count: User.where(is_online: true).all.length
+      online_user_count: User.where(is_online: true).all.length,
       online_available_user_count: User.where(is_available: true).all.length
     )
   end

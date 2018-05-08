@@ -9,7 +9,7 @@
 
 # Database file
 /config/database.yml
-#/.env
+/config/cable.yml
 
 # Ignore the default SQLite database.
 /db/*.sqlite3
@@ -22,7 +22,6 @@
 !/tmp/.keep
 
 .byebug_history
-# database.yml
 
 #Credentials
 .env

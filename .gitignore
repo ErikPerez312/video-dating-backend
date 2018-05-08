@@ -9,7 +9,6 @@
 
 # Database file
 /config/database.yml
-/config/cable.yml
 
 # Ignore the default SQLite database.
 /db/*.sqlite3

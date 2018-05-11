@@ -28,13 +28,13 @@ class ChatsController < ApplicationController
       user_found = false
       while user_found == false
         available_users = User.where(is_available: true).all
-        if available_users.length == 1
+        if available_users.length <= 1
           # Only available user is the one making the request
           user_found = true
           return nil
         else
           random_user = available_users.sample
-          if random_user.id != current_user.id
+          if random_user != nil && random_user.id != current_user.id
             user_found = true
             return random_user
           end

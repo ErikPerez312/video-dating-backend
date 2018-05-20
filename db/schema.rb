@@ -63,12 +63,10 @@ ActiveRecord::Schema.define(version: 20180520193243) do
     t.string "password_salt"
     t.string "first_name"
     t.string "last_name"
-    t.bigint "matches_id"
     t.boolean "is_online", default: false
     t.boolean "is_available", default: false
     t.integer "seeking"
     t.integer "gender"
-    t.index ["matches_id"], name: "index_users_on_matches_id"
     t.index ["phone_number"], name: "index_users_on_phone_number", unique: true
     t.index ["token"], name: "index_users_on_token", unique: true
   end

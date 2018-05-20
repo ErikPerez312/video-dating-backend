@@ -6,7 +6,7 @@ RSpec.describe User, type: :model do
       user = User.new(
         first_name: "Erik",
         last_name: "Perez",
-        gender: "male",
+        gender: 0,
         phone_number: "(111)111-1111",
         age: 20,
         password: "testPass"
@@ -18,7 +18,7 @@ RSpec.describe User, type: :model do
       bad_user = User.new(
         first_name: nil,
         last_name: "Perez",
-        gender: "male",
+        gender: 0,
         phone_number: "(111)111-1111",
         age: 20,
         password: "testPass"
@@ -30,7 +30,7 @@ RSpec.describe User, type: :model do
       bad_user = User.new(
         first_name: "Erik",
         last_name: nil,
-        gender: "male",
+        gender: 0,
         phone_number: "(111)111-1111",
         age: 20,
         password: "testPass"
@@ -54,7 +54,7 @@ RSpec.describe User, type: :model do
       bad_user = User.new(
         first_name: "Erik",
         last_name: "perez",
-        gender: "male",
+        gender: 0,
         phone_number: nil,
         age: 20,
         password: "testPass"
@@ -66,7 +66,7 @@ RSpec.describe User, type: :model do
       bad_user = User.new(
         first_name: "Erik",
         last_name: "perez",
-        gender: "male",
+        gender: 0,
         phone_number: "(111)111-1111",
         age: nil,
         password: "testPass"
@@ -78,7 +78,7 @@ RSpec.describe User, type: :model do
       bad_user = User.new(
         first_name: "Erik",
         last_name: "perez",
-        gender: "male",
+        gender: 0,
         phone_number: "(111)111-1111",
         age: 20,
         password: nil

@@ -16,9 +16,10 @@ RSpec.describe "UserControllers", type: :request do
         user = User.new(
           first_name: "Erik",
           last_name: "Perez",
-          gender: "male",
+          gender: 0,
           phone_number: "(111)111-1111",
           age: 20,
+          seeking: 1,
           password: "testPass"
         )
         user.save
@@ -40,9 +41,10 @@ RSpec.describe "UserControllers", type: :request do
         valid_params = {
           first_name: "Erik",
           last_name: "Perez",
-          gender: "male",
+          gender: 0,
           phone_number: "(111)111-1111",
           age: 20,
+          seeking: 1,
           password: "testPass"
         }
         post "/users", params: valid_params

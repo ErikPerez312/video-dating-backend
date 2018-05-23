@@ -6,7 +6,7 @@ class SessionsController < ApplicationController
     @user = User.authenticate(params[:phone_number], params[:password])
 
     if @user
-      render json: @user, only: [:first_name, :last_name, :gender, :phone_number, :age, :id, :token], status: :ok
+      render json: @user, status: :ok
     else
       render json: {"error": "invalid credentials"}, status: :unauthorized
     end

@@ -10,10 +10,24 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180506224235) do
+ActiveRecord::Schema.define(version: 20180520193243) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "available_men", force: :cascade do |t|
+    t.bigint "user_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["user_id"], name: "index_available_men_on_user_id"
+  end
+
+  create_table "available_women", force: :cascade do |t|
+    t.bigint "user_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["user_id"], name: "index_available_women_on_user_id"
+  end
 
   create_table "matches", force: :cascade do |t|
     t.integer "cantor_identifier"
@@ -49,14 +63,15 @@ ActiveRecord::Schema.define(version: 20180506224235) do
     t.string "password_salt"
     t.string "first_name"
     t.string "last_name"
-    t.string "gender"
-    t.bigint "matches_id"
     t.boolean "is_online", default: false
     t.boolean "is_available", default: false
-    t.index ["matches_id"], name: "index_users_on_matches_id"
+    t.integer "seeking"
+    t.integer "gender"
     t.index ["phone_number"], name: "index_users_on_phone_number", unique: true
     t.index ["token"], name: "index_users_on_token", unique: true
   end
 
+  add_foreign_key "available_men", "users"
+  add_foreign_key "available_women", "users"
   add_foreign_key "profile_images", "users"
 end

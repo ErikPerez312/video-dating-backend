@@ -1,5 +1,14 @@
 class ChatChannel < ApplicationCable::Channel
   def subscribed
+    stream_from "chat_user:#{current_user.id}"
+  end
+
+  def unsubscribed
+    delete_from_available_table(current_user)
+  end
+
+  def connect()
+    # Add me to available user table based on gender
     if current_user.gender == 0
       available_man = AvailableMan.new
       available_man.user = current_user
@@ -9,21 +18,7 @@ class ChatChannel < ApplicationCable::Channel
       available_woman.user = current_user
       available_woman.save
     end
-    stream_from "chat_user:#{current_user.id}"
 
-  end
-
-  def unsubscribed
-    if current_user.gender == 0
-      user = AvailableMan.find_by(user: current_user)
-      user.destroy
-    elsif current_user.gender == 1
-      user = AvailableWoman.find_by(user: current_user)
-      user.destroy
-    end
-  end
-
-  def connect()
     solo_users = available_users()
     partner = ""
 
@@ -43,11 +38,16 @@ class ChatChannel < ApplicationCable::Channel
       end
     end
 
-    # Broadcast room info if a user was found : iPhoneX-f7cd6467e6fbcfb38684c32c1c51a36a
+    # Broadcast room info if a user was found
     if partner != ""
       room_name = room_name_with(partner.id)
+      # Each user needs a token with their own identity
       my_twilio_token = twilio_token_with(current_user.token, room_name)
       partner_twilio_token = twilio_token_with(partner.token, room_name)
+
+      # Remove users from Available Woman/Man table
+      delete_from_available_table(current_user)
+      delete_from_available_table(partner)
 
       # Notify myself of connection
       ActionCable.server.broadcast(
@@ -89,10 +89,27 @@ class ChatChannel < ApplicationCable::Channel
   end
 
   def room_name_with(partner_id)
+    # creates unique number using users' ID
     if current_user.id < partner_id
       return "#{(current_user.id * partner_id) + ((current_user.id - partner_id + 1) ** 2) / 4}"
     end
     return "#{(current_user.id * partner_id) + ((partner_id - current_user.id + 1) ** 2) / 4}"
+  end
+
+  def delete_from_available_table(user)
+    if user.gender == 0
+      unavailable_user = AvailableMan.find_by(user: user)
+      if unavailable_user
+        unavailable_user.destroy
+      end
+
+      return
+    end
+
+    unavailable_user = AvailableWoman.find_by(user: user)
+    if unavailable_user
+      unavailable_user.destroy
+    end
   end
 
   def available_users
@@ -101,18 +118,15 @@ class ChatChannel < ApplicationCable::Channel
 
     if user_seeking == 1
       # User is interested in Men
-      puts "men"
       available_men = AvailableMan.where.not(user: current_user).order("created_at")
       return available_men
     elsif user_seeking == 2
       # User is interested in Women
-      puts "women"
       available_women = AvailableWoman.where.not(user: current_user).order("created_at")
       return available_women
     else
       # User is bi-sexual
       # User will be connected to most available gender
-      puts "bi"
       available_men = AvailableMan.where.not(user: current_user).order("created_at")
       available_women = AvailableWoman.where.not(user: current_user).order("created_at")
 

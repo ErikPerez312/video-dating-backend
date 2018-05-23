@@ -1,28 +1,29 @@
 class ChatChannel < ApplicationCable::Channel
   def subscribed
-    if current_user.gender = 0
+    if current_user.gender == 0
       available_man = AvailableMan.new
       available_man.user = current_user
       available_man.save
-    elsif current_user.gender = 1
+    elsif current_user.gender == 1
       available_woman = AvailableWoman.new
       available_woman.user = current_user
       available_woman.save
     end
     stream_from "chat_user:#{current_user.id}"
+
   end
 
   def unsubscribed
-    if current_user.gender = 0
+    if current_user.gender == 0
       user = AvailableMan.find_by(user: current_user)
       user.destroy
-    elsif current_user.gender = 1
+    elsif current_user.gender == 1
       user = AvailableWoman.find_by(user: current_user)
       user.destroy
     end
   end
 
-  def connect(data)
+  def connect()
     solo_users = available_users()
     partner = ""
 
@@ -42,23 +43,24 @@ class ChatChannel < ApplicationCable::Channel
       end
     end
 
-    # Broadcast room info if a user was found
+    # Broadcast room info if a user was found : iPhoneX-f7cd6467e6fbcfb38684c32c1c51a36a
     if partner != ""
       room_name = room_name_with(partner.id)
-      twilio_token = twilio_token_with(data["identity"], partner.id, room_name)
+      my_twilio_token = twilio_token_with(current_user.token, room_name)
+      partner_twilio_token = twilio_token_with(partner.token, room_name)
 
       # Notify myself of connection
       ActionCable.server.broadcast(
         "chat_user:#{current_user.id}",
         room_name: room_name,
-        twilio_token: twilio_token
+        twilio_token: my_twilio_token
       )
 
       # Notify partner of connection
       ActionCable.server.broadcast(
         "chat_user:#{partner.id}",
         room_name: room_name,
-        twilio_token: twilio_token
+        twilio_token: partner_twilio_token
       )
     elsif partner == ""
       # No user was found. Make myself available again incase it was made false
@@ -69,7 +71,7 @@ class ChatChannel < ApplicationCable::Channel
   end
 
   private
-  def twilio_token_with(identity, partner_id, room)
+  def twilio_token_with(identity, room)
     # Load environment configuration
     Dotenv.load
     # Grant access to Video
@@ -88,9 +90,9 @@ class ChatChannel < ApplicationCable::Channel
 
   def room_name_with(partner_id)
     if current_user.id < partner_id
-      return (current_user.id * partner_id) + ((current_user.id - partner_id + 1) ** 2) / 4
+      return "#{(current_user.id * partner_id) + ((current_user.id - partner_id + 1) ** 2) / 4}"
     end
-    return (current_user.id * partner_id) + ((partner_id - current_user.id + 1) ** 2) / 4
+    return "#{(current_user.id * partner_id) + ((partner_id - current_user.id + 1) ** 2) / 4}"
   end
 
   def available_users

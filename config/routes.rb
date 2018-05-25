@@ -13,6 +13,9 @@ Rails.application.routes.draw do
   patch "/users/:user_id/profile_images/:id", to: "profile_images#update"
   delete "/users/:user_id/profile_images/:id", to: "profile_images#destroy"
 
+  post "/verification/code", to: "verification#code"
+  post "/verification/verify", to: "verification#verify"
+
   # Action Cable will be listening for WebSocket requests on ws://localhost:3000/cable.
   mount ActionCable.server => "/cable"
 end

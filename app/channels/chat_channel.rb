@@ -53,14 +53,20 @@ class ChatChannel < ApplicationCable::Channel
       ActionCable.server.broadcast(
         "chat_user:#{current_user.id}",
         room_name: room_name,
-        twilio_token: my_twilio_token
+        twilio_token: my_twilio_token,
+        remote_user_id: "#{partner.id}",
+        remote_user_first_name: partner.first_name,
+        remote_user_profile_image_url: profile_image_url(partner)
       )
 
       # Notify partner of connection
       ActionCable.server.broadcast(
         "chat_user:#{partner.id}",
         room_name: room_name,
-        twilio_token: partner_twilio_token
+        twilio_token: partner_twilio_token,
+        remote_user_id: "#{current_user.id}",
+        remote_user_first_name: current_user.first_name,
+        remote_user_profile_image_url: profile_image_url(current_user)
       )
     elsif partner == ""
       # No user was found. Make myself available again incase it was made false
@@ -134,6 +140,15 @@ class ChatChannel < ApplicationCable::Channel
         return available_men
       end
       return available_women
+    end
+  end
+
+  def profile_image_url(user)
+    profile_image = user.profile_images.last
+    if profile_image
+      return profile_image.image_file.url()
+    else
+      return "No image"
     end
   end
 end

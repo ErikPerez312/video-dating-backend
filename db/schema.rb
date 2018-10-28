@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180520193243) do
+ActiveRecord::Schema.define(version: 20181027030923) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -73,5 +73,5 @@ ActiveRecord::Schema.define(version: 20180520193243) do
 
   add_foreign_key "available_men", "users"
   add_foreign_key "available_women", "users"
-  add_foreign_key "profile_images", "users"
+  add_foreign_key "profile_images", "users", on_delete: :cascade
 end

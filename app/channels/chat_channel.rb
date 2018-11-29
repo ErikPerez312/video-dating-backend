@@ -70,7 +70,10 @@ class ChatChannel < ApplicationCable::Channel
       current_user.is_available = true
       current_user.save
     end
+  end
 
+  def cancel_connection()
+    delete_from_available_table(current_user)
   end
 
   private

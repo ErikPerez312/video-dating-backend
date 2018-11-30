@@ -4,10 +4,8 @@ class User < ApplicationRecord
 
   validates :first_name, presence: true
   validates :last_name, presence: true
-  validates :gender, presence: true
-  validates :age, presence: true
   validates :phone_number, presence: true, uniqueness: true
-  validates :seeking, presence: true
+
 
   # 1. Hash password before saving a User
   before_save :encrypt_password

@@ -10,23 +10,16 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20181027030923) do
+ActiveRecord::Schema.define(version: 20181129021752) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
-  create_table "available_men", force: :cascade do |t|
+  create_table "available_users", force: :cascade do |t|
     t.bigint "user_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["user_id"], name: "index_available_men_on_user_id"
-  end
-
-  create_table "available_women", force: :cascade do |t|
-    t.bigint "user_id"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.index ["user_id"], name: "index_available_women_on_user_id"
+    t.index ["user_id"], name: "index_available_users_on_user_id"
   end
 
   create_table "matches", force: :cascade do |t|
@@ -57,7 +50,6 @@ ActiveRecord::Schema.define(version: 20181027030923) do
     t.string "phone_number"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.string "age"
     t.string "token"
     t.string "password_hash"
     t.string "password_salt"
@@ -65,13 +57,10 @@ ActiveRecord::Schema.define(version: 20181027030923) do
     t.string "last_name"
     t.boolean "is_online", default: false
     t.boolean "is_available", default: false
-    t.integer "seeking"
-    t.integer "gender"
     t.index ["phone_number"], name: "index_users_on_phone_number", unique: true
     t.index ["token"], name: "index_users_on_token", unique: true
   end
 
-  add_foreign_key "available_men", "users"
-  add_foreign_key "available_women", "users"
+  add_foreign_key "available_users", "users"
   add_foreign_key "profile_images", "users", on_delete: :cascade
 end

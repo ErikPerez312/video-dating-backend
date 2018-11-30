@@ -49,10 +49,7 @@ class UsersController < ApplicationController
       params.permit(
         :first_name,
         :last_name,
-        :gender,
         :phone_number,
-        :age,
-        :seeking,
         :password
       )
     end

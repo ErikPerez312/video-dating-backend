@@ -50,7 +50,9 @@ class UsersController < ApplicationController
         :first_name,
         :last_name,
         :phone_number,
-        :password
+        :password,
+        :age,
+        :bio
       )
     end
 end

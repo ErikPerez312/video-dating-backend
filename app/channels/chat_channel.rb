@@ -53,7 +53,9 @@ class ChatChannel < ApplicationCable::Channel
         twilio_token: current_user_token,
         remote_user_id: "#{current_user.id}",
         remote_user_first_name: remote_partner.first_name,
-        remote_user_profile_image_url: profile_image_url(remote_partner)
+        remote_user_profile_image_url: profile_image_url(remote_partner),
+        remote_user_age: remote_partner.age,
+        remote_user_bio: remote_partner.bio
       )
 
       # Notify remote_partner of connection
@@ -63,7 +65,9 @@ class ChatChannel < ApplicationCable::Channel
         twilio_token: remote_partner_token,
         remote_user_id: "#{remote_partner.id}",
         remote_user_first_name: current_user.first_name,
-        remote_user_profile_image_url: profile_image_url(current_user)
+        remote_user_profile_image_url: profile_image_url(current_user),
+        remote_user_age: current_user.age,
+        remote_user_bio: current_user.bio
       )
     elsif remote_partner == ""
       # No user was found. Make 'current_user' available again incase it was made false

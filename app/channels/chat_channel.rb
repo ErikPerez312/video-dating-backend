@@ -55,7 +55,8 @@ class ChatChannel < ApplicationCable::Channel
         remote_user_first_name: remote_partner.first_name,
         remote_user_profile_image_url: profile_image_url(remote_partner),
         remote_user_age: remote_partner.age,
-        remote_user_bio: remote_partner.bio
+        remote_user_bio: remote_partner.bio,
+        remote_user_gender: remote_partner.gender
       )
 
       # Notify remote_partner of connection
@@ -67,7 +68,8 @@ class ChatChannel < ApplicationCable::Channel
         remote_user_first_name: current_user.first_name,
         remote_user_profile_image_url: profile_image_url(current_user),
         remote_user_age: current_user.age,
-        remote_user_bio: current_user.bio
+        remote_user_bio: current_user.bio,
+        remote_user_gender: current_user.gender
       )
     elsif remote_partner == ""
       # No user was found. Make 'current_user' available again incase it was made false

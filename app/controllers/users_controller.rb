@@ -52,7 +52,8 @@ class UsersController < ApplicationController
         :phone_number,
         :password,
         :age,
-        :bio
+        :bio,
+        :gender
       )
     end
 end
